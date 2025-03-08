@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { Button, Form } from 'react-bootstrap';
-import { selectEditableTransaction } from '../../store/transaction/transactionSlice.ts';
+import { selectCategory, selectEditableTransaction } from '../../store/transaction/transactionSlice.ts';
 import {
   fetchAllTransactions,
   submitTransaction,
@@ -23,8 +23,10 @@ const initialValues: ITransactionForm = {
 const TransactionForm: React.FC<Props> = ({isEdit, setShowModal, loading = false}) => {
   const [form, setForm] = useState<ITransactionForm>(initialValues);
   const [categories, setCategories] = useState<ICategory[]>([]);
+
   const editTransaction = useAppSelector(selectEditableTransaction);
   const allCategories = useAppSelector(selectCategories);
+  const Category = useAppSelector(selectCategory);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -52,12 +54,14 @@ const TransactionForm: React.FC<Props> = ({isEdit, setShowModal, loading = false
       setForm({...form, [name]: value});
     };
 
-  const onChangeSelect =
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const categories =
-        allCategories.filter((category) => category.type === e.target.value);
-      setCategories(categories);
-    };
+  const onChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (allCategories.length > 0) {
+      const filteredCategories = allCategories.filter(
+        (category) => category.type === e.target.value
+      );
+      setCategories(filteredCategories);
+    }
+  };
 
   return (
     <Form onSubmit={onSubmitForm}>
@@ -66,8 +70,11 @@ const TransactionForm: React.FC<Props> = ({isEdit, setShowModal, loading = false
           name="type"
           required
           disabled={loading}
-          onChange={onChangeSelect}>
-          <option disabled value="">Select type</option>
+          onChange={onChangeSelect}
+        >
+          <option disabled value={Category?.type || ""}>
+            Select type
+          </option>
           <option value="income">income</option>
           <option value="expense">expense</option>
         </Form.Select>
@@ -80,10 +87,10 @@ const TransactionForm: React.FC<Props> = ({isEdit, setShowModal, loading = false
           required
           disabled={loading}
           onChange={onChangeInput}>
-          <option disabled value="">Select type</option>
+          <option disabled >Select type</option>
           {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
+            <option key={category.id} value={ category.id}>
+              {Category? Category.name : category.name}
             </option>
           ))}
         </Form.Select>

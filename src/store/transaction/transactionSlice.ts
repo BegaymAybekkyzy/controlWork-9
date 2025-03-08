@@ -11,12 +11,14 @@ interface FinanceTrackerState {
   allTransactions: ITransaction[];
   editableTransaction: ITransaction | null;
   loading: boolean;
+  category: ICategory | null;
 }
 
 const initialState: FinanceTrackerState = {
   allTransactions: [],
   editableTransaction: null,
   loading: false,
+  category: null,
 };
 
 export const selectAllTransactions =
@@ -25,11 +27,18 @@ export const selectEditableTransaction =
   (state: RootState) => state.transactions.editableTransaction;
 export const selectLoadingTransaction=
   (state: RootState) => state.transactions.loading;
+export const selectCategory =
+  (state: RootState) => state.transactions.category;
+
 
 export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
-  reducers: {},
+  reducers: {
+    categoryAdd: (state, action) => {
+      state.category = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllTransactions.pending, (state) => {
@@ -88,3 +97,4 @@ export const transactionSlice = createSlice({
 });
 
 export const transactionReducer = transactionSlice.reducer;
+export const { categoryAdd} = transactionSlice.actions;
