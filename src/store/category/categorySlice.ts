@@ -6,6 +6,7 @@ import {
   submitCategory,
   updateCategory
 } from './categoryThunks.ts';
+import { RootState } from '../../app/store.ts';
 
 interface categoryState {
   categories: ICategory[];
@@ -18,6 +19,13 @@ const initialState: categoryState = {
   editableCategory: null,
   loading: false,
 };
+
+export const selectCategories =
+  (state: RootState) => state.category.categories;
+export const selectEditableCategory =
+  (state: RootState) => state.category.editableCategory;
+export const selectLoadingCategory =
+  (state: RootState) => state.category.loading;
 
 export const categorySlice = createSlice({
   name: "category",

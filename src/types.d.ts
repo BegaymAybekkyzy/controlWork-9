@@ -1,5 +1,5 @@
 interface ICategoryForm {
-  type: "income" | "expense";
+  type: string;
   name: string;
 }
 

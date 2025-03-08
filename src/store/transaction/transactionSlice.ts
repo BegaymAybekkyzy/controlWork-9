@@ -5,6 +5,7 @@ import {
   fetchTransactionById, submitTransaction,
   updateTransaction
 } from './transactionThunks.ts';
+import { RootState } from '../../app/store.ts';
 
 interface FinanceTrackerState {
   allTransactions: ITransaction[];
@@ -17,6 +18,13 @@ const initialState: FinanceTrackerState = {
   editableTransaction: null,
   loading: false,
 };
+
+export const selectAllTransactions =
+  (state: RootState) => state.transactions.allTransactions
+export const selectEditableTransaction =
+  (state: RootState) => state.transactions.editableTransaction;
+export const selectLoadingTransaction=
+  (state: RootState) => state.transactions.loading;
 
 export const transactionSlice = createSlice({
   name: 'transaction',
