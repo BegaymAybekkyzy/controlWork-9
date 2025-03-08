@@ -48,6 +48,7 @@ const CategoryForm: React.FC<Props> = ({isEdit = false, setShowModal, loading}) 
     <Form onSubmit={onSubmitForm}>
       <h3>{isEdit? "Edit" : "Add"}</h3>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Category type</Form.Label>
         <Form.Select
           name="type"
           required
@@ -60,7 +61,7 @@ const CategoryForm: React.FC<Props> = ({isEdit = false, setShowModal, loading}) 
         </Form.Select>
       </Form.Group>
       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Example textarea</Form.Label>
+        <Form.Label>Category name</Form.Label>
         <Form.Control
           type="text"
           name="name"

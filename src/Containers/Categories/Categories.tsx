@@ -67,7 +67,7 @@ const Categories = () => {
     <>
       <div className="mb-4">
         <h1>Categories</h1>
-        <Button variant="primary" onClick={handleShow}>Add</Button>
+        <Button variant="primary" onClick={handleShow}>Add Categoty</Button>
       </div>
 
       <main className="d-flex flex-column gap-3">
